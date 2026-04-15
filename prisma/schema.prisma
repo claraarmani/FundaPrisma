@@ -23,6 +23,8 @@ model User {
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
   posts     Post[]
+
+  @@map("users") //mapeia a tabela para "users" no banco de dados
 }
 
 model Post {
@@ -30,6 +32,8 @@ model Post {
   title   String
   subtitle String?
   content String
-  userId  Int
+  userId  Int @map("user_id") //mapeia a coluna para "user_id" no banco de dados
   user    User   @relation(fields: [userId], references: [id])
+
+  @@map("posts") //mapeia a tabela para "posts" no banco de dados
 }
