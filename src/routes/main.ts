@@ -13,6 +13,9 @@ mainRouter.post('/user', async (req, res) => {
     name: 'John Doe',
     email: 'john.doe@exemple.com'
 });
-
-    res.json(user)
+    if (user) {
+        res.status(201).json({ user });
+    } else {
+        res.status(400).json({ error:'Email alredy exists' })
+    }
 })
