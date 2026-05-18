@@ -1,13 +1,13 @@
 import { Prisma } from '@prisma/client'
-import { prisma } from "../libs/prisma"
-/* type CreateUserProps = {
+import { prisma } from '../libs/prisma'
+/*
+ type CreateUserProps = {
     name: string
     email: string
-} */
-
+} 
+*/
 export const createUser = async (data: Prisma.UserCreateInput) => {
     try {
-
         return await prisma.user.create({ data })
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -21,7 +21,7 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
 
 export const createUsers = async (users: Prisma.UserCreateInput[]) => {
     try {
-        const result = await prisma.user.createMany({
+        return await prisma.user.createMany({
             data: users,
             skipDuplicates: true
         })
@@ -43,6 +43,23 @@ export const getAllUsers = async () => {
         })
     } catch (error) {
         console.log('Error fetching users:', error)
+        return false
+    }
+}
+
+export const getUserByEmail =  async (email: string) => {
+    try {
+        return await prisma.user.findUnique({
+            where: { email },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                status: true
+            }
+        })
+    } catch (error) {
+        console.log('Error fetching user bby email:', error)
         return false
     }
 }
